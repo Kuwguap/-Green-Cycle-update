@@ -32,6 +32,12 @@ public class UserController {
         return ResponseEntity.ok(resp);
     }
 
+    // Get current user profile (alternative endpoint for frontend compatibility)
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        return getProfile(userDetails);
+    }
+
     // Update current user profile (name only)
     @PutMapping("/me")
     public ResponseEntity<?> updateProfile(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UpdateProfileRequest req) {

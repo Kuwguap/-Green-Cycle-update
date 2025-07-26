@@ -32,33 +32,71 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
-
+    // Constructors
     public User() {}
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public User(String email, String password, String name) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.roles.add("USER");
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getEmail() {
+        return email;
+    }
 
-    public Set<String> getRoles() { return roles; }
-    public void setRoles(Set<String> roles) { this.roles = roles; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getWalletAddress() { return walletAddress; }
-    public void setWalletAddress(String walletAddress) { this.walletAddress = walletAddress; }
+    public String getPassword() {
+        return password;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-} 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
+
+    public String getWalletAddress() {
+        return walletAddress;
+    }
+
+    public void setWalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+}
+
