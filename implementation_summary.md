@@ -51,7 +51,7 @@
    - Photo verification
    - Immutable storage
 
-5. **Marketplace** 🚧
+5. **Marketplace** ✅
    - Item listing
    - Artisan profiles
    - In-app messaging
@@ -61,21 +61,31 @@
    - Adoption tracking
    - Community engagement
 
+7. **Leaderboard** ✅
+   - Weekly, monthly, and all-time rankings
+   - Achievement tracking
+   - Integration with reward system
+
 ### 📋 **Phase 3: Advanced Features (PLANNED)**
-7. **DAO Governance** 📋
+8. **DAO Governance** 📋
    - Proposal system
    - Voting mechanism
    - Token-based governance
 
-8. **NFT Badges** 📋
+9. **NFT Badges** ✅
    - Achievement NFTs
    - Blockchain minting
    - Metadata management
 
-9. **Waste-as-a-Service** 📋
-   - Professional platform
-   - Route optimization
-   - Payment integration
+10. **Waste-as-a-Service** 📋
+    - Professional platform
+    - Route optimization
+    - Payment integration
+
+11. **Algorand Notarization** ✅
+    - Blockchain integration
+    - Data notarization
+    - Token management
 
 ---
 

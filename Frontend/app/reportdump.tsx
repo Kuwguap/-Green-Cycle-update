@@ -7,6 +7,7 @@ import { TextInput } from 'react-native-paper';
 import * as FileSystem from 'expo-file-system';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
+import { useNotification } from '../context/NotificationContext';
 /*import camera from './camera.svg';// Import your camera SVG icon here
 import { SvgUri } from 'react-native-svg'; // If you want to use SVG icons directly*/
 // ----- Option Arrays -----
@@ -63,6 +64,9 @@ export default function ReportForm() {
   const { photoUri } = useLocalSearchParams<{ photoUri: string }>();
 
   const router = useRouter();
+  
+  // Use the notification hook
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     (async () => {
@@ -114,18 +118,43 @@ export default function ReportForm() {
 
 
   const handleSubmit = async () => {
+    // Show info notification when starting submission
+    showNotification({
+      message: "Processing your report...",
+      type: "info",
+      duration: 2000
+    });
+    
     if (!selectedAccessibility || !selectedTrashType || !selectedTrashSize) {
-      Alert.alert('Error', 'Please complete all required fields.');
+      // Show warning notification for missing fields
+      showNotification({
+        message: "Please complete all required fields.",
+        type: "warning",
+        duration: 4000
+      });
       return;
     }
+    
     if (!photoUri) {
-      Alert.alert('Error', 'Please add a photo.');
+      // Show warning notification for missing photo
+      showNotification({
+        message: "Please add a photo of the dump site.",
+        type: "warning",
+        duration: 4000
+      });
       return;
     }
+    
     if (latitude == null || longitude == null) {
-      Alert.alert('Error', 'Location not available.');
+      // Show danger notification for location error
+      showNotification({
+        message: "Location not available. Please enable location services.",
+        type: "danger",
+        duration: 4000
+      });
       return;
     }
+    
     try {
       const apiUrl = 'http://192.168.0.186:8080/api/dumps/report/image'; // Update to your backend IP if needed
       const formData = new FormData();
@@ -135,6 +164,7 @@ export default function ReportForm() {
       formData.append('location', location);
       formData.append('latitude', String(latitude));
       formData.append('longitude', String(longitude));
+      
       // Convert image URI to file for upload
       const fileName = photoUri.split('/').pop() || `photo.jpg`;
       const fileType = fileName.endsWith('.png') ? 'image/png' : 'image/jpeg';
@@ -143,6 +173,7 @@ export default function ReportForm() {
         name: fileName,
         type: fileType,
       } as any); // Cast as any for React Native FormData compatibility
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -150,12 +181,23 @@ export default function ReportForm() {
         },
         body: formData,
       });
+      
       if (response.ok) {
+        // Show success notification
+        showNotification({
+          message: "Your trash report has been submitted successfully!",
+          type: "success",
+          duration: 4000
+        });
+        
+        // Still use Alert for navigation confirmation
         Alert.alert('Thank You!', 'Your trash report has been submitted.', [{
           text: 'Ok',
           onPress: () => router.replace('/thankscreen'),
           style: 'default',
         }], { cancelable: false });
+        
+        // Reset form
         setName('');
         setLocation('');
         setSelectedTrashType(null);
@@ -164,10 +206,21 @@ export default function ReportForm() {
         setSelectedAccessibility({});
       } else {
         const msg = await response.text();
-        Alert.alert('Error', msg || 'Failed to submit report.');
+        
+        // Show danger notification for API error
+        showNotification({
+          message: msg || "Failed to submit report. Please try again.",
+          type: "danger",
+          duration: 5000
+        });
       }
     } catch (err) {
-      Alert.alert('Error', 'Failed to submit report.');
+      // Show danger notification for network error
+      showNotification({
+        message: "Network error. Please check your connection and try again.",
+        type: "danger",
+        duration: 5000
+      });
     }
   };
 

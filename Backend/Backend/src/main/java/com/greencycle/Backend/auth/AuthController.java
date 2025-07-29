@@ -28,7 +28,8 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
             User user = userService.registerUser(request.getEmail(), request.getPassword(), request.getName());
-            return ResponseEntity.ok(user);
+            String token = jwtUtil.generateToken(user.getEmail());
+            return ResponseEntity.ok(new JwtResponse(token));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -42,4 +42,24 @@ public class UserService {
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-} 
+
+    public User createOAuth2User(String email, String name) {
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email already in use");
+        }
+        
+        User user = new User();
+        user.setEmail(email);
+        user.setName(name);
+        // OAuth2 users don't have passwords - set a placeholder
+        user.setPassword(passwordEncoder.encode("OAUTH2_USER_NO_PASSWORD"));
+        user.getRoles().add("USER");
+        
+        // Generate Algorand wallet
+        WalletService.WalletInfo wallet = walletService.generateWallet();
+        user.setWalletAddress(wallet.getAddress());
+        logger.info("Generated wallet for OAuth2 user {}: {} (mnemonic: {})", email, wallet.getAddress(), wallet.getMnemonic());
+        
+        return userRepository.save(user);
+    }
+}

@@ -23,10 +23,17 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                         "/api/auth/**",
+                        "/api/oauth2/**",
                         "/api/dumps/report/image",
-                        "/api/dumps/reports"
+                        "/api/dumps/reports",
+                        "/login/oauth2/code/**",
+                        "/oauth2/authorization/**"
                 ).permitAll()
                 .anyRequest().authenticated()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .defaultSuccessUrl("/api/oauth2/success", true)
+                .failureUrl("/api/oauth2/failure")
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -36,4 +43,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-} 
+}

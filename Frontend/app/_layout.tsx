@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import BottomNavBar from '../components/BottomNavBar';
+import { NotificationProvider } from '../context/NotificationContext';
 
 function RouteGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -45,44 +46,46 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <PaperProvider  theme={customTheme}>
-        <SafeAreaProvider>
-          <RouteGuard>
-            <View style={{ flex: 1 }}>
-              <Stack>
-                <Stack.Screen name="splash" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="auth" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="home" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="report" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="marketplace" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="adopt" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="leaderboard" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="profile" options={{ headerShown: false }}></Stack.Screen>
-                <Stack.Screen name="camerascreen" options={{headerShown: false}}></Stack.Screen>
-                <Stack.Screen name="reportdump" options={{
-  headerTitle: 'Report Dump',
-  headerShown: true,
-  headerStyle: { backgroundColor: '#4CC075' },
-  headerShadowVisible: false,
-  headerTintColor: 'white',
-  headerBackButtonDisplayMode: 'minimal',
-  headerRight: () => (
-    <TouchableOpacity>
-      <View style={{ padding: 8, flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ color: '#fff', fontWeight: 'bold', marginRight: 4 }}>Submit</Text>
-        <Ionicons name="send" size={22} color="#fff" />
-      </View>
-    </TouchableOpacity>
-  )
-}}></Stack.Screen>
-                <Stack.Screen name="settings" options={{ headerTitle: 'Settings', headerShown: true, headerStyle: { backgroundColor: '#4CC075' }, headerShadowVisible: false, headerTintColor: 'white', headerBackButtonDisplayMode: 'minimal'}}></Stack.Screen>
-                <Stack.Screen name="thankscreen" options={{ headerTitle: 'Thank You!', headerShown: true, headerStyle: { backgroundColor: '#4CC075' }, headerShadowVisible: false, headerTintColor: 'white', headerBackButtonDisplayMode: 'minimal'}} ></Stack.Screen>
-                <Stack.Screen name="aboutus"  options={{ headerTitle: 'About Us', headerShown: true, headerStyle: { backgroundColor: '#4CC075' }, headerShadowVisible: false, headerTintColor: 'white', headerBackButtonDisplayMode: 'minimal'}} ></Stack.Screen>
-              </Stack>
-              {!hideNav && <BottomNavBar />}
-            </View>
-          </RouteGuard>
-        </SafeAreaProvider>
+      <PaperProvider theme={customTheme}>
+        <NotificationProvider>
+          <SafeAreaProvider>
+            <RouteGuard>
+              <View style={{ flex: 1 }}>
+                <Stack>
+                  <Stack.Screen name="splash" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="auth" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="home" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="report" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="marketplace" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="adopt" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="leaderboard" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="profile" options={{ headerShown: false }}></Stack.Screen>
+                  <Stack.Screen name="camerascreen" options={{headerShown: false}}></Stack.Screen>
+                  <Stack.Screen name="reportdump" options={{
+    headerTitle: 'Report Dump',
+    headerShown: true,
+    headerStyle: { backgroundColor: '#4CC075' },
+    headerShadowVisible: false,
+    headerTintColor: 'white',
+    headerBackButtonDisplayMode: 'minimal',
+    headerRight: () => (
+      <TouchableOpacity>
+        <View style={{ padding: 8, flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ color: '#fff', fontWeight: 'bold', marginRight: 4 }}>Submit</Text>
+          <Ionicons name="send" size={22} color="#fff" />
+        </View>
+      </TouchableOpacity>
+    )
+  }}></Stack.Screen>
+                  <Stack.Screen name="settings" options={{ headerTitle: 'Settings', headerShown: true, headerStyle: { backgroundColor: '#4CC075' }, headerShadowVisible: false, headerTintColor: 'white', headerBackButtonDisplayMode: 'minimal'}}></Stack.Screen>
+                  <Stack.Screen name="thankscreen" options={{ headerTitle: 'Thank You!', headerShown: true, headerStyle: { backgroundColor: '#4CC075' }, headerShadowVisible: false, headerTintColor: 'white', headerBackButtonDisplayMode: 'minimal'}} ></Stack.Screen>
+                  <Stack.Screen name="aboutus"  options={{ headerTitle: 'About Us', headerShown: true, headerStyle: { backgroundColor: '#4CC075' }, headerShadowVisible: false, headerTintColor: 'white', headerBackButtonDisplayMode: 'minimal'}} ></Stack.Screen>
+                </Stack>
+                {!hideNav && <BottomNavBar />}
+              </View>
+            </RouteGuard>
+          </SafeAreaProvider>
+        </NotificationProvider>
       </PaperProvider>
     </GestureHandlerRootView>
   )
